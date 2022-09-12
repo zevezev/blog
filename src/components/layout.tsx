@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Link } from "gatsby";
+import { Link, useStaticQuery, graphql } from "gatsby";
+import styled from "styled-components";
+
 const Layout = ({
   pageTitle,
   children,
@@ -7,23 +9,66 @@ const Layout = ({
   pageTitle: string;
   children: any;
 }) => {
+  const data = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `);
+
   return (
-    <div style={{ display: "flex", gap: "3rem" }}>
-      <nav style={{ borderRight: "1px solid gray", paddingRight: "2rem" }}>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-        </ul>
-      </nav>
+    <LayoutComponent>
+      <header>
+        <SiteTitle>{data.site.siteMetadata.title}</SiteTitle>
+      </header>
+      <NavComponent>
+        <NavLinks>
+          <NavLinkItem>
+            <LinkText to="/">Home</LinkText>
+          </NavLinkItem>
+          <NavLinkItem>
+            <LinkText to="/about">About</LinkText>
+          </NavLinkItem>
+          <NavLinkItem>
+            <LinkText to="/blog">Blog</LinkText>
+          </NavLinkItem>
+        </NavLinks>
+      </NavComponent>
       <main>
         <h1>{pageTitle}</h1>
         {children}
       </main>
-    </div>
+    </LayoutComponent>
   );
 };
+const LayoutComponent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin: 4rem;
+  font: sans-serif;
+`;
+const NavComponent = styled.nav`
+  border-bottom: 1px solid gray;
+`;
+const NavLinks = styled.ul`
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+`;
+const NavLinkItem = styled.li`
+  padding-right: 2rem;
+`;
+const LinkText = styled(Link)`
+  color: black;
+`;
+const SiteTitle = styled.h1`
+  font-size: 3rem;
+  color: gray;
+  font-weight: 700;
+  margin: 3rem 0;
+`;
 export default Layout;
