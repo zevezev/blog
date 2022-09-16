@@ -4,7 +4,7 @@ import { StaticImage } from "gatsby-plugin-image";
 import * as React from "react";
 import styled from "styled-components";
 import Layout from "../components/layout";
-import Seo from "../components/seo.js";
+import Seo from "../components/seo";
 
 const PicHolder = styled.div`
   display: flex;
