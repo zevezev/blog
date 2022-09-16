@@ -1,10 +1,20 @@
 import * as React from "react";
+import { LinkText } from "./layout";
 
-const PostList = ({ postData }: { postData: PostData[] }) => {
+const PostList = ({ postData }: { postData: IPostData }) => {
+  console.log(postData);
   return (
     <div>
-      {postData?.map((node) => (
-        <p>{node.name}</p>
+      {postData?.allMdx?.nodes.map((node) => (
+        <article key={node.id}>
+          <h2>
+            <LinkText to={`/art/${node.frontmatter.slug}`}>
+              {node.frontmatter.title}
+            </LinkText>
+          </h2>
+          <p>Posted: {node.frontmatter.date}</p>
+          {node.excerpt}
+        </article>
       ))}
     </div>
   );
@@ -12,6 +22,16 @@ const PostList = ({ postData }: { postData: PostData[] }) => {
 
 export default PostList;
 
-interface PostData {
-  name: string;
+export interface IPostData {
+  allMdx: {
+    nodes: {
+      excerpt: any;
+      id: string;
+      frontmatter: {
+        title: string;
+        date: string;
+        slug: string;
+      };
+    }[];
+  };
 }

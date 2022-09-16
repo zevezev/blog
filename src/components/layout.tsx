@@ -84,7 +84,7 @@ const NavLinks = styled.ul`
 const NavLinkItem = styled.li`
   padding-right: 2rem;
 `;
-const LinkText = styled(Link)`
+export const LinkText = styled(Link)`
   color: black;
   text-decoration: none;
 `;
